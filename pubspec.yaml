@@ -1,0 +1,195 @@
+name: food_in_flutter
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+  firebase_core: ^3.14.0
+  firebase_auth: ^5.6.0
+  #google_sign_in: ^6.0.0
+  #flutter_facebook_auth: ^7.1.2
+#  google_maps_flutter: ^2.12.3
+#  url_launcher: ^6.2.5
+#  geolocator: ^11.0.0
+  google_maps_flutter: ^2.12.1      # works on SDK 34
+  geolocator: ^11.0.2        # latest 11.x
+  url_launcher: ^6.2.10
+  geocoding: ^2.1.1
+  shared_preferences: ^2.2.2
+
+  lottie: ^3.3.1
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^5.0.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/animations/delivery_bike.json
+    - assets/animations/fresh_salad.json
+    - assets/animations/craving_crushers.json
+    - assets/flutter_img/burger.jpeg
+    - assets/flutter_img/cake.jpeg
+    - assets/flutter_img/chicken_fry.jpeg
+    - assets/flutter_img/pizza.jpeg
+    - assets/flutter_img/sushi.jpeg
+    - assets/flutter_img/deal1.jpeg
+    - assets/flutter_img/deal2.jpeg
+    - assets/flutter_img/deal3.jpeg
+    - assets/flutter_img/deal4.jpeg
+    - assets/flutter_img/deal5.jpeg
+    - assets/flutter_img/deal6.jpeg
+    - assets/flutter_img/deal7.jpeg
+    - assets/flutter_img/deal8.jpeg
+    - assets/flutter_img/deal9.jpeg
+    - assets/flutter_img/deal10.jpeg
+    - assets/flutter_img/res_acropolis.jpeg
+    - assets/flutter_img/res_cafe_dreamland.jpeg
+    - assets/flutter_img/res_cha_bazaar.jpeg
+    - assets/flutter_img/res_comfort.jpeg
+    - assets/flutter_img/res_fatimas_steakhouse.jpeg
+    - assets/flutter_img/res_ferdousis.jpeg
+    - assets/flutter_img/res_gobinda_bhog.jpeg
+    - assets/flutter_img/res_greenleaf.jpeg
+    - assets/flutter_img/res_mezbaan.jpeg
+    - assets/flutter_img/res_mm_bread_cake.jpeg
+    - assets/flutter_img/res_panch_vai.jpeg
+    - assets/flutter_img/res_panshi.jpeg
+    - assets/flutter_img/res_royal_dine.jpeg
+    - assets/flutter_img/res_salvias_kitchen.jpeg
+    - assets/flutter_img/res_sky_lounge.jpeg
+    - assets/flutter_img/res_spice_villa.jpeg
+    - assets/flutter_img/res_tea_hut.jpeg
+    - assets/flutter_img/res_the_glasshouse.jpeg
+    - assets/flutter_img/Breakfast/1.jpeg
+    - assets/flutter_img/Breakfast/2.jpeg
+    - assets/flutter_img/Breakfast/3.jpeg
+    - assets/flutter_img/Breakfast/4.jpeg
+    - assets/flutter_img/Breakfast/5.jpeg
+    - assets/flutter_img/Breakfast/6.jpeg
+    - assets/flutter_img/Breakfast/7.jpeg
+    - assets/flutter_img/Breakfast/8.jpeg
+    - assets/flutter_img/Breakfast/9.jpeg
+    - assets/flutter_img/Breakfast/10.jpeg
+    - assets/flutter_img/Breakfast/11.jpeg
+    - assets/flutter_img/Breakfast/12.jpeg
+    - assets/flutter_img/Breakfast/13.jpeg
+    - assets/flutter_img/Breakfast/14.jpeg
+    - assets/flutter_img/Breakfast/15.jpeg
+    - assets/flutter_img/Desserts/1.jpeg
+    - assets/flutter_img/Desserts/2.jpeg
+    - assets/flutter_img/Desserts/3.jpeg
+    - assets/flutter_img/Desserts/4.jpeg
+    - assets/flutter_img/Desserts/5.jpeg
+    - assets/flutter_img/Desserts/6.jpeg
+    - assets/flutter_img/Desserts/7.jpeg
+    - assets/flutter_img/Desserts/8.jpeg
+    - assets/flutter_img/Desserts/9.jpeg
+    - assets/flutter_img/Desserts/10.jpeg
+    - assets/flutter_img/Desserts/11.jpeg
+    - assets/flutter_img/Desserts/12.jpeg
+    - assets/flutter_img/Desserts/13.jpeg
+    - assets/flutter_img/Desserts/14.jpeg
+    - assets/flutter_img/Desserts/15.jpeg
+    - assets/flutter_img/Fast Food/1.jpeg
+    - assets/flutter_img/Fast Food/2.jpeg
+    - assets/flutter_img/Fast Food/3.jpeg
+    - assets/flutter_img/Fast Food/4.jpeg
+    - assets/flutter_img/Fast Food/5.jpeg
+    - assets/flutter_img/Fast Food/6.jpeg
+    - assets/flutter_img/Fast Food/7.jpeg
+    - assets/flutter_img/Fast Food/8.jpeg
+    - assets/flutter_img/Fast Food/9.jpeg
+    - assets/flutter_img/Fast Food/10.jpeg
+    - assets/flutter_img/Fast Food/11.jpeg
+    - assets/flutter_img/Fast Food/12.jpeg
+    - assets/flutter_img/Fast Food/13.jpeg
+    - assets/flutter_img/Fast Food/14.jpeg
+    - assets/flutter_img/Fast Food/15.jpeg
+    - assets/flutter_img/Healthy/1.jpeg
+    - assets/flutter_img/Healthy/2.jpeg
+    - assets/flutter_img/Healthy/3.jpeg
+    - assets/flutter_img/Healthy/4.jpeg
+    - assets/flutter_img/Healthy/5.jpeg
+    - assets/flutter_img/Healthy/6.jpeg
+    - assets/flutter_img/Healthy/7.jpeg
+    - assets/flutter_img/Healthy/8.jpeg
+    - assets/flutter_img/Healthy/9.jpeg
+    - assets/flutter_img/Healthy/10.jpeg
+    - assets/flutter_img/Healthy/11.jpeg
+    - assets/flutter_img/Healthy/12.jpeg
+    - assets/flutter_img/Healthy/13.jpeg
+    - assets/flutter_img/Healthy/14.jpeg
+    - assets/flutter_img/Healthy/15.jpeg
+    - assets/flutter_img/Snacks/1.jpeg
+    - assets/flutter_img/Snacks/2.jpeg
+    - assets/flutter_img/Snacks/3.jpeg
+    - assets/flutter_img/Snacks/4.jpeg
+    - assets/flutter_img/Snacks/5.jpeg
+    - assets/flutter_img/Snacks/6.jpeg
+    - assets/flutter_img/Snacks/7.jpeg
+    - assets/flutter_img/Snacks/8.jpeg
+    - assets/flutter_img/Snacks/9.jpeg
+    - assets/flutter_img/Snacks/10.jpeg
+    - assets/flutter_img/Snacks/11.jpeg
+    - assets/flutter_img/Vegan/1.jpeg
+    - assets/flutter_img/Vegan/2.jpeg
+    - assets/flutter_img/Vegan/3.jpeg
+    - assets/flutter_img/Vegan/4.jpeg
+    - assets/flutter_img/Vegan/5.jpeg
+    - assets/flutter_img/Vegan/6.jpeg
+    - assets/flutter_img/Vegan/7.jpeg
+    - assets/flutter_img/Drinks/1.jpeg
+    - assets/flutter_img/Drinks/2.jpeg
+    - assets/flutter_img/Drinks/3.jpeg
+    - assets/flutter_img/Drinks/4.jpeg
+    - assets/flutter_img/Drinks/5.jpeg
+    - assets/flutter_img/Drinks/6.jpeg
+    - assets/flutter_img/Drinks/7.jpeg
+    - assets/flutter_img/Drinks/8.jpeg
+    - assets/flutter_img/Drinks/9.jpeg
+    - assets/flutter_img/Drinks/10.jpeg
