@@ -104,12 +104,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     const SizedBox(height: 12),
 
                     // Subtitle below image
-                    Text(
-                      page.subtitle,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: size.width * 0.045,
-                        color: Colors.brown[600],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        page.subtitle,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: size.width * 0.045,
+                          color: Colors.brown[600],
+                        ),
                       ),
                     ),
                   ],
@@ -117,13 +120,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               );
             },
           ),
-          // Indicator and skip/done
+          // Indicator and skip/done - Moved lower to prevent overlap
           Positioned(
-            bottom: 40,
-            left: 24,
-            right: 24,
+            bottom: 70, // Increased from 40 to 70 for more spacing
+            left: 0,
+            right: 0,
             child: Column(
               children: [
+                // Page indicators
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
@@ -134,22 +138,30 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       width: _currentPage == idx ? 24 : 12,
                       height: 12,
                       decoration: BoxDecoration(
-                        color: _currentPage == idx ? Colors.brown : Colors.brown.withOpacity(0.3),
+                        color: _currentPage == idx
+                            ? Colors.brown
+                            : Colors.brown.withOpacity(0.3),
                         borderRadius: BorderRadius.circular(6),
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 20), // Increased spacing
+
+                // Skip/Done button
                 Align(
                   alignment: Alignment.bottomRight,
-                  child: TextButton(
-                    onPressed: _goToSignIn,
-                    child: Text(
-                      _currentPage == _pages.length - 1 ? 'Done' : 'Skip',
-                      style: TextStyle(
-                        color: Colors.brown[800],
-                        fontSize: size.width * 0.045,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 30),
+                    child: TextButton(
+                      onPressed: _goToSignIn,
+                      child: Text(
+                        _currentPage == _pages.length - 1 ? 'Get Started' : 'Skip',
+                        style: TextStyle(
+                          color: Colors.brown[800],
+                          fontSize: size.width * 0.045,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ),

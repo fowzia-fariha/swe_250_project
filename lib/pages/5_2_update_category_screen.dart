@@ -4,10 +4,11 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:food_in_flutter/pages/4_4_food_details.dart'; // FoodDetailScreen
-import 'package:food_in_flutter/pages/5_1_restaurant_menu.dart'; // RestaurantMenuScreen
+import 'package:food_in_flutter/pages/4_4_food_details.dart';
+import 'package:food_in_flutter/pages/5_1_restaurant_menu.dart';
 import 'package:food_in_flutter/utils/1_restaurant_list.dart';
 import 'package:food_in_flutter/utils/2_category_food_imgs.dart';
+import 'package:food_in_flutter/utils/3_custom_colors.dart';// Import AppColors
 
 class CategoryScreen extends StatefulWidget {
   final String category;
@@ -18,7 +19,7 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  List<Map<String, dynamic>> _foodItemsForCategory = []; // Updated to store food item data
+  List<Map<String, dynamic>> _foodItemsForCategory = [];
   late Timer timer;
   List<Map<String, String>> restaurants = [];
   final ScrollController _imgController = ScrollController();
@@ -28,7 +29,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   void initState() {
     super.initState();
     pickRandomRestaurants();
-    loadFoodItemsForCategory(); // Updated method
+    loadFoodItemsForCategory();
 
     timer = Timer.periodic(const Duration(seconds: 2), (_) {
       if (_imgController.hasClients && _foodItemsForCategory.isNotEmpty) {
@@ -101,15 +102,14 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const bgColor = Color(0xFFFFE0B2);
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: AppColors.bgColor, // Set background color
       appBar: AppBar(
         title: Text('${widget.category} Classics'),
-        backgroundColor: bgColor,
+        backgroundColor: AppColors.selectionColor, // Set app bar color
       ),
       body: Container(
-        color: bgColor,
+        color: AppColors.bgColor, // Set container background
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -226,6 +226,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
                       clipBehavior: Clip.antiAlias,
+                      color: AppColors.cardBackground, // Set card background
+                      elevation: 2, // Add subtle shadow
                       child: Row(
                         children: [
                           Image.asset(

@@ -2,7 +2,194 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:food_in_flutter/pages/4_1_category_screen.dart';
 import 'package:food_in_flutter/pages/4_2_map_screen.dart';
-import 'package:food_in_flutter/pages/4_3_profile_screen.dart'; // Import the profile screen
+import 'package:food_in_flutter/pages/4_3_profile_screen.dart';
+import 'package:food_in_flutter/pages/4_5_order_screen.dart';
+import 'package:food_in_flutter/pages/4_6_cart_screen.dart';
+
+// Add FoodDetailScreen class
+class FoodDetailScreen extends StatefulWidget {
+  final Map<String, dynamic> foodItem;
+
+  const FoodDetailScreen({Key? key, required this.foodItem}) : super(key: key);
+
+  @override
+  _FoodDetailScreenState createState() => _FoodDetailScreenState();
+}
+
+class _FoodDetailScreenState extends State<FoodDetailScreen> {
+  int _quantity = 1;
+  double _totalPrice = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _calculateTotal();
+  }
+
+  void _calculateTotal() {
+    setState(() {
+      _totalPrice = (widget.foodItem['price'] as double) * _quantity;
+    });
+  }
+
+  void _incrementQuantity() {
+    setState(() {
+      _quantity++;
+      _calculateTotal();
+    });
+  }
+
+  void _decrementQuantity() {
+    if (_quantity > 1) {
+      setState(() {
+        _quantity--;
+        _calculateTotal();
+      });
+    }
+  }
+
+  void _addToCart() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('${widget.foodItem['item']} added to cart'),
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
+
+  void _placeOrder() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(title: const Text('Order Confirmed')),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.check_circle, color: Colors.green, size: 100),
+                const SizedBox(height: 20),
+                Text(
+                  'Your order for ${widget.foodItem['item']} has been placed!',
+                  style: const TextStyle(fontSize: 20),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Total: ৳${_totalPrice.toStringAsFixed(2)}',
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.foodItem['item']),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Image.asset(
+              widget.foodItem['image'],
+              height: 300,
+              fit: BoxFit.cover,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.foodItem['item'],
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    widget.foodItem['restaurant'],
+                    style: const TextStyle(fontSize: 18, color: Colors.grey),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    widget.foodItem['description'],
+                    style: const TextStyle(fontSize: 16, height: 1.5),
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Price',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    '৳${widget.foodItem['price'].toStringAsFixed(2)}',
+                    style: const TextStyle(fontSize: 22, color: Colors.green),
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Quantity',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.remove),
+                        onPressed: _decrementQuantity,
+                      ),
+                      Text(
+                        '$_quantity',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: _incrementQuantity,
+                      ),
+                      const Spacer(),
+                      Text(
+                        'Total: ৳${_totalPrice.toStringAsFixed(2)}',
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.orange,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                          ),
+                          onPressed: _addToCart,
+                          child: const Text('Add to Cart', style: TextStyle(fontSize: 18)),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                          ),
+                          onPressed: _placeOrder,
+                          child: const Text('Place Order', style: TextStyle(fontSize: 18)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class FoodHomeScreen extends StatefulWidget {
   const FoodHomeScreen({Key? key}) : super(key: key);
@@ -22,21 +209,84 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
     {'name':'Cake','image':'assets/flutter_img/cake.jpeg'},
     {'name':'Sushi','image':'assets/flutter_img/sushi.jpeg'},
   ];
-  final List<Map<String,String>> _deals = [
-    {'item':'Burger','restaurant':'The Westin–Pavilion','image':'assets/flutter_img/deal1.jpeg'},
-    {'item':'Taco','restaurant':'Café 33','image':'assets/flutter_img/deal2.jpeg'},
-    {'item':'Pizza','restaurant':'Sky Lounge','image':'assets/flutter_img/deal3.jpeg'},
-    {'item':'Fried Rice','restaurant':'Izumi','image':'assets/flutter_img/deal4.jpeg'},
-    {'item':'Platter','restaurant':'Fazlani Gourmet','image':'assets/flutter_img/deal5.jpeg'},
-    {'item':'Burrito','restaurant':'Radisson Blu','image':'assets/flutter_img/deal6.jpeg'},
-    {'item':'Matar Paneer','restaurant':'Le Méridien','image':'assets/flutter_img/deal7.jpeg'},
-    {'item':'Naan Kabab','restaurant':'Our Place','image':'assets/flutter_img/deal8.jpeg'},
-    {'item':'Tandoori Chicken','restaurant':'Pan Pacific Sonargaon','image':'assets/flutter_img/deal9.jpeg'},
-    {'item':'Sushi','restaurant':'Grand Sultan Tea Resort','image':'assets/flutter_img/deal10.jpeg'},
+
+  // Updated deals with price and description
+  final List<Map<String, dynamic>> _deals = [
+    {
+      'item':'Burger',
+      'restaurant':'The Westin–Pavilion',
+      'image':'assets/flutter_img/deal1.jpeg',
+      'price': 450.00,
+      'description': 'Juicy beef patty with fresh vegetables and special sauce. Served with crispy fries.'
+    },
+    {
+      'item':'Taco',
+      'restaurant':'Café 33',
+      'image':'assets/flutter_img/deal2.jpeg',
+      'price': 320.00,
+      'description': 'Crispy corn tortillas filled with seasoned ground beef, lettuce, cheese, and salsa.'
+    },
+    {
+      'item':'Pizza',
+      'restaurant':'Sky Lounge',
+      'image':'assets/flutter_img/deal3.jpeg',
+      'price': 650.00,
+      'description': '12-inch hand-tossed pizza with mozzarella cheese, pepperoni, and fresh basil.'
+    },
+    {
+      'item':'Fried Rice',
+      'restaurant':'Izumi',
+      'image':'assets/flutter_img/deal4.jpeg',
+      'price': 380.00,
+      'description': 'Traditional Japanese fried rice with vegetables, egg, and your choice of protein.'
+    },
+    {
+      'item':'Platter',
+      'restaurant':'Fazlani Gourmet',
+      'image':'assets/flutter_img/deal5.jpeg',
+      'price': 850.00,
+      'description': 'Mixed platter featuring grilled chicken, lamb kebabs, and falafel with hummus.'
+    },
+    {
+      'item':'Burrito',
+      'restaurant':'Radisson Blu',
+      'image':'assets/flutter_img/deal6.jpeg',
+      'price': 350.00,
+      'description': 'Large flour tortilla stuffed with rice, beans, cheese, and your choice of filling.'
+    },
+    {
+      'item':'Matar Paneer',
+      'restaurant':'Le Méridien',
+      'image':'assets/flutter_img/deal7.jpeg',
+      'price': 420.00,
+      'description': 'Traditional Indian curry with soft paneer cheese and green peas in a rich tomato sauce.'
+    },
+    {
+      'item':'Naan Kabab',
+      'restaurant':'Our Place',
+      'image':'assets/flutter_img/deal8.jpeg',
+      'price': 480.00,
+      'description': 'Tender grilled kababs served with freshly baked naan bread and mint chutney.'
+    },
+    {
+      'item':'Tandoori Chicken',
+      'restaurant':'Pan Pacific Sonargaon',
+      'image':'assets/flutter_img/deal9.jpeg',
+      'price': 550.00,
+      'description': 'Chicken marinated in yogurt and spices, cooked in a traditional tandoor oven.'
+    },
+    {
+      'item':'Sushi',
+      'restaurant':'Grand Sultan Tea Resort',
+      'image':'assets/flutter_img/deal10.jpeg',
+      'price': 720.00,
+      'description': 'Assorted sushi platter with fresh salmon, tuna, and California rolls.'
+    },
   ];
+
   late final ScrollController _recController;
   Timer? _autoScrollTimer;
-  int _currentIndex = 0; // Track current tab index
+  int _currentIndex = 0;
 
   @override
   void initState(){
@@ -168,15 +418,22 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
                 delegate: SliverChildBuilderDelegate((ctx,i){
                   final deal=_deals[i];
                   return GestureDetector(
-                    onTap:()=>Navigator.push(context, MaterialPageRoute(builder:(_)=>CategoryScreen(category:deal['item']!))),
+                    // MODIFIED: Navigate to FoodDetailScreen
+                    onTap:() => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FoodDetailScreen(foodItem: deal),
+                      ),
+                    ),
                     child:Container(
                         height:120, margin:const EdgeInsets.fromLTRB(12,0,12,12),
-                        decoration:BoxDecoration(borderRadius:BorderRadius.circular(12), image:DecorationImage(image:AssetImage(deal['image']!), fit:BoxFit.cover)),
+                        decoration:BoxDecoration(borderRadius:BorderRadius.circular(12), image:DecorationImage(image:AssetImage(deal['image']), fit:BoxFit.cover)),
                         child:Container(
                             decoration:BoxDecoration(borderRadius:BorderRadius.circular(12), gradient: const LinearGradient(begin:Alignment.bottomCenter, end:Alignment.topCenter, colors:[Colors.black54,Colors.transparent])), padding: const EdgeInsets.all(8), alignment: Alignment.bottomLeft,
                             child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
-                              Text(deal['item']!, style: const TextStyle(color:Colors.white,fontSize:16,fontWeight:FontWeight.bold)),
-                              Text(deal['restaurant']!, style: const TextStyle(color:Colors.white70,fontSize:14)),
+                              Text(deal['item'], style: const TextStyle(color:Colors.white,fontSize:16,fontWeight:FontWeight.bold)),
+                              Text(deal['restaurant'], style: const TextStyle(color:Colors.white70,fontSize:14)),
+                              Text('৳${deal['price'].toStringAsFixed(2)}', style: const TextStyle(color: Colors.amber, fontSize: 16, fontWeight: FontWeight.bold)),
                             ])
                         )
                     ),
@@ -186,7 +443,6 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
           ],
         ),
       ),
-      // Removed floating action button
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: const Color(0xFFFFE0B2),
         selectedItemColor: const Color(0xFFFFAB91),
@@ -194,19 +450,25 @@ class _FoodHomeScreenState extends State<FoodHomeScreen> {
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() => _currentIndex = index);
-          if (index == 1) { // Explore tab
+          if (index == 1) {
             Navigator.push(context, MaterialPageRoute(builder: (_) => const MapScreen()));
-            // Reset to home after navigation
             Future.delayed(Duration.zero, () => setState(() => _currentIndex = 0));
-          } else if (index == 4) { // Profile tab
+          }
+          else if (index == 2) { // Orders tab
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const OrdersScreen()));
+            Future.delayed(Duration.zero, () => setState(() => _currentIndex = 0));
+          }
+          else if (index == 3) { // Cart tab
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const CartScreen()));
+            Future.delayed(Duration.zero, () => setState(() => _currentIndex = 0));
+          }else if (index == 4) {
             Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileScreen()));
-            // Reset to home after navigation
             Future.delayed(Duration.zero, () => setState(() => _currentIndex = 0));
           }
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Explore'), // Changed to map icon
+          BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Explore'),
           BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: 'Orders'),
           BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
