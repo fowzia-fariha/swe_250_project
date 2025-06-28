@@ -45,7 +45,7 @@ dependencies:
   geolocator: ^11.0.2        # latest 11.x
   url_launcher: ^6.2.10
   geocoding: ^2.1.1
-  shared_preferences: ^2.2.2
+  shared_preferences: ^2.2.3
 
   lottie: ^3.3.1
 

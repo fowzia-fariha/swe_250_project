@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:food_in_flutter/pages/3_home_screen.dart';
+import 'package:food_in_flutter/pages/3_1_delivery_dashboard.dart'; // Add this import
 import 'package:food_in_flutter/utils/3_custom_colors.dart';
 
 /// A landing page to choose user type.
@@ -94,10 +96,23 @@ class _SignInSignUpScreenState extends State<SignInSignUpScreen> {
           password: _passwordController.text.trim(),
         );
       }
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const FoodHomeScreen()),
-      );
+
+      // Store user type in shared preferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userType', widget.userType);
+
+      // Navigate to appropriate screen based on user type
+      if (widget.userType == 'customer') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const FoodHomeScreen()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const DeliveryProfileScreen()),
+        );
+      }
     } on FirebaseAuthException catch (e) {
       final msg = e.message ?? 'Authentication error';
       ScaffoldMessenger.of(context).showSnackBar(
@@ -148,7 +163,6 @@ class _SignInSignUpScreenState extends State<SignInSignUpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgColor,
-      // REMOVED THE APP BAR FROM HERE
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : Padding(
